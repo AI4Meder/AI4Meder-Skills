@@ -1,6 +1,6 @@
 interface:
   display_name: "AI4Meder Submission Review"
-  short_description: "Submit and review AI4Meder content."
-  default_prompt: "Use $ai4meder-submission-review to submit AI4Meder content or review pending submissions through the API."
+  short_description: "Submit and review medical AI resources for AI4Meder."
+  default_prompt: "Use $ai4meder-submission-review to submit or review AI4Meder medical AI resource content through the production API. Map every item to one of the 8 primary medical AI categories."
 policy:
   allow_implicit_invocation: true

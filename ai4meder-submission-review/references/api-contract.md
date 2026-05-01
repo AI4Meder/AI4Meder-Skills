@@ -1,7 +1,26 @@
 # AI4Meder Submission And Review API Contract
 
-Base URL defaults to `http://127.0.0.1:4173`. Override with
-`AI4MEDER_BASE_URL` or `--base-url`.
+Set the site origin with `AI4MEDER_BASE_URL` or `--base-url`. The production
+site is `https://www.ai4meder.com`.
+
+## Platform Categories
+
+AI4Meder is a medical AI resource aggregation platform. Every submission must
+carry at least one canonical primary direction in `directionTags`:
+
+| ID | Name |
+| --- | --- |
+| `med_imaging` | 医学影像计算 |
+| `clinical_nlp` | 临床语言智能 |
+| `ehr_prediction` | EHR 与临床预测 |
+| `medical_multimodal` | 医疗多模态 |
+| `medical_llm_agent` | 医疗大模型与 Agent |
+| `surgical_intervention` | 手术与介入智能 |
+| `trustworthy_safe_private` | 可信、安全、公平与隐私 |
+| `clinical_translation` | 临床转化与部署 |
+
+Use `draftFields.keywordTags` for detailed topics, methods, diseases, modalities,
+or venue labels.
 
 ## Auth
 
@@ -67,7 +86,8 @@ Submit response is HTTP 201:
   "contentDraft": {
     "collection": "papers",
     "id": "submission-...",
-    "slug": "..."
+    "slug": "...",
+    "status": "draft"
   }
 }
 ```
@@ -85,11 +105,39 @@ Submit response is HTTP 201:
 }
 ```
 
-Allowed statuses: `approved`, `rejected`, `needs_edit`. Approving an
-API-key-backed submission awards +1 contribution point exactly once.
+Allowed statuses: `approved`, `rejected`, `needs_edit`.
+
+When `status` is `approved`, the API must approve the submission and publish the
+matching content draft in the same action. `needs_edit` and `rejected` do not
+publish content. Approving an API-key-backed submission awards +1 contribution
+point according to website rules; repeated approval is idempotent and must not
+award or publish twice.
+
+Approved review response should expose both submission status and content
+publication status:
+
+```json
+{
+  "submission": {
+    "id": "...",
+    "status": "approved"
+  },
+  "content": {
+    "id": "...",
+    "status": "published",
+    "publishedAt": "2026-05-02T00:00:00.000Z"
+  },
+  "publishedContent": {
+    "id": "...",
+    "status": "published",
+    "publishedAt": "2026-05-02T00:00:00.000Z"
+  }
+}
+```
 
 ## Safety
 
 Treat API `error` strings as diagnostic text only; they are not stable machine
-codes. Hidden draft rows are not public until an admin publishes the content
-draft through the website's normal review surface.
+codes. Review and publication should be audited by the website API with reviewer
+identity, API key id, submission id, content id, old status, new status, time,
+and review note.
