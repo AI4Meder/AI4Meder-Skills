@@ -1,0 +1,6 @@
+interface:
+  display_name: "AI4Meder Submission Review"
+  short_description: "Submit and review AI4Meder content."
+  default_prompt: "Use $ai4meder-submission-review to submit AI4Meder content or review pending submissions through the API."
+policy:
+  allow_implicit_invocation: true
