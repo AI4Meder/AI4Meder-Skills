@@ -42,24 +42,52 @@ Never put API keys in files. Pass keys with environment variables:
 
 1. Guest submission:
 
+   Windows PowerShell:
+
    ```powershell
    python scripts/ai4meder_api.py --base-url https://www.ai4meder.com submit payload.json
    ```
 
+   macOS/Linux bash or zsh:
+
+   ```bash
+   python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com submit payload.json
+   ```
+
 2. Normal user API-key submission:
+
+   Windows PowerShell:
 
    ```powershell
    $env:AI4MEDER_API_KEY='<user-api-key>'
    python scripts/ai4meder_api.py --base-url https://www.ai4meder.com submit payload.json
    ```
 
+   macOS/Linux bash or zsh:
+
+   ```bash
+   export AI4MEDER_API_KEY='<user-api-key>'
+   python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com submit payload.json
+   ```
+
 3. Admin API-key review:
+
+   Windows PowerShell:
 
    ```powershell
    $env:AI4MEDER_ADMIN_API_KEY='<admin-api-key>'
    python scripts/ai4meder_api.py --base-url https://www.ai4meder.com whoami --api-key $env:AI4MEDER_ADMIN_API_KEY
    python scripts/ai4meder_api.py --base-url https://www.ai4meder.com list --status pending --expected-admin-email '<admin-email>'
    python scripts/ai4meder_api.py --base-url https://www.ai4meder.com review <submission-id> --status approved --review-note 'Verified source.' --expected-admin-email '<admin-email>'
+   ```
+
+   macOS/Linux bash or zsh:
+
+   ```bash
+   export AI4MEDER_ADMIN_API_KEY='<admin-api-key>'
+   python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com whoami --api-key "$AI4MEDER_ADMIN_API_KEY"
+   python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com list --status pending --expected-admin-email '<admin-email>'
+   python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com review <submission-id> --status approved --review-note 'Verified source.' --expected-admin-email '<admin-email>'
    ```
 
 ## Payloads
