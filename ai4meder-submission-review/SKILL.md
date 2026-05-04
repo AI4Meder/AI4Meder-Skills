@@ -40,6 +40,14 @@ Never put API keys in files. Pass keys with environment variables:
 
 ## Workflows
 
+Choose the workflow by intent:
+
+- Use guest or normal-user submission when creating a pending community
+  contribution.
+- Use admin review only after the submitted source page has been checked.
+- Do not use this skill for direct edits to already-published content; use
+  `ai4meder-content-crud` for that.
+
 1. Guest submission:
 
    Windows PowerShell:
@@ -89,6 +97,28 @@ Never put API keys in files. Pass keys with environment variables:
    python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com list --status pending --expected-admin-email '<admin-email>'
    python3 scripts/ai4meder_api.py --base-url https://www.ai4meder.com review <submission-id> --status approved --review-note 'Verified source.' --expected-admin-email '<admin-email>'
    ```
+
+## Practical Sequence
+
+For a normal paper submission:
+
+1. Build `payload.json` with `submissionType`, `title`, `sourceUrl`, `summary`,
+   `directionTags`, and type-specific `draftFields`.
+2. Run `submit payload.json`.
+3. Confirm the response includes `submission.status = pending` and a
+   `contentDraft.status = draft`.
+
+For review:
+
+1. Set `AI4MEDER_ADMIN_API_KEY`.
+2. Run `whoami` and confirm the expected admin email.
+3. Run `list --status pending`.
+4. Check the source URL for title, authors/provider, date, venue/deadline, and
+   official provenance.
+5. Run `review <submission-id> --status approved|needs_edit|rejected`.
+
+Use `approved` only when source facts match. Use `needs_edit` when the idea is
+in scope but metadata or source evidence needs correction.
 
 ## Payloads
 

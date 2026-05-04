@@ -30,6 +30,43 @@ or venue labels.
   `community_users.role = 'admin'`.
 - Identity check: `GET /api/profile/api-keys/whoami`.
 
+## CLI Sequence
+
+Guest submit:
+
+```bash
+export AI4MEDER_BASE_URL="https://www.ai4meder.com"
+python3 scripts/ai4meder_api.py submit payload.json
+```
+
+Normal user submit:
+
+```bash
+export AI4MEDER_BASE_URL="https://www.ai4meder.com"
+export AI4MEDER_API_KEY="<user-api-key>"
+python3 scripts/ai4meder_api.py submit payload.json
+```
+
+Admin review:
+
+```bash
+export AI4MEDER_BASE_URL="https://www.ai4meder.com"
+export AI4MEDER_ADMIN_API_KEY="<admin-api-key>"
+python3 scripts/ai4meder_api.py whoami --api-key "$AI4MEDER_ADMIN_API_KEY"
+python3 scripts/ai4meder_api.py list --status pending --expected-admin-email "<admin-email>"
+python3 scripts/ai4meder_api.py review <submission-id> --status approved --review-note "Source verified." --expected-admin-email "<admin-email>"
+```
+
+PowerShell uses the same arguments:
+
+```powershell
+$env:AI4MEDER_BASE_URL = "https://www.ai4meder.com"
+$env:AI4MEDER_ADMIN_API_KEY = "<admin-api-key>"
+python scripts\ai4meder_api.py whoami --api-key $env:AI4MEDER_ADMIN_API_KEY
+python scripts\ai4meder_api.py list --status pending --expected-admin-email "<admin-email>"
+python scripts\ai4meder_api.py review <submission-id> --status needs_edit --review-note "Metadata needs correction." --expected-admin-email "<admin-email>"
+```
+
 ## Submit
 
 `POST /api/submissions`

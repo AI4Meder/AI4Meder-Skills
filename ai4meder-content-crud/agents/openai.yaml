@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI4Meder Content CRUD"
+  short_description: "Manage published AI4Meder content with an admin API key."
+  default_prompt: "Use this skill to manage already-published AI4Meder content through the website API. Always verify the admin key with whoami, use get before update, and use --yes for delete."
